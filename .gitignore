@@ -30,3 +30,17 @@
 *.exe
 *.out
 *.app
+
+# build directory
+build/
+
+# Eclipse project files
+.project
+.cproject
+.autotools
+.settings/
+
+# googleTest local repo
+lib/
+
+
