@@ -18,3 +18,6 @@ target_include_directories(Board PRIVATE
 	${PROJECT_SOURCE_DIR}/Piece/inc
 	${PROJECT_SOURCE_DIR}/Utils/inc
 )
+
+enable_testing()
+add_subdirectory(test)

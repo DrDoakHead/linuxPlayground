@@ -18,3 +18,6 @@ target_link_libraries(Piece Utils)
 target_include_directories(Piece PRIVATE
 	${PROJECT_SOURCE_DIR}/Utils/inc
 )
+
+enable_testing()
+add_subdirectory(test)
