@@ -12,7 +12,11 @@ Knight::Knight(Color color)
 
 Knight::~Knight()
 {
+}
 
+std::string Knight::toString() const
+{
+	return "k";
 }
 
 bool Knight::isValidMove(const Position& initPos, const Position& finalPos) const

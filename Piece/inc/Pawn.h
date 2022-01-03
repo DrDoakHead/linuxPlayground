@@ -16,18 +16,23 @@ public:
      */
     Pawn(Color Color);
 
-    /*
+    /**
     * Destructor
     */
-    virtual ~Pawn();
+    ~Pawn();
 
-    /*
-    * copydoc Piece::isValidMove
+    /**
+    * Copydoc::Piece::toString
+    */
+    std::string toString() const;
+
+    /**
+    * Copydoc::Piece::isValidMove
     */
     bool isValidMove(const Position& initPos, const Position& finalPos) const;
 
-    /*
-    * copydoc Piece::getPath
+    /**
+    * Copydoc::Piece::getPath
     */
     std::vector<Position> getPath(const Position& initPos, const Position& finalPos) const;
 };

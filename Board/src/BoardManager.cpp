@@ -59,11 +59,11 @@ bool BoardManager::promote(Square& square, TypeOfPiece::PieceType pieceType)
     if (isValidPromotion(square))
     {
         std::shared_ptr<Piece> piece;
-        std::shared_ptr<Rook> rook;
-        std::shared_ptr<Bishop> bishop;
-        std::shared_ptr<Knight> knight;
-        std::shared_ptr<Queen> queen;
-        piece->setColor(square.getPiece()->getColor());
+        std::shared_ptr<Bishop> bishop(new Bishop(currentPlayer));
+        std::shared_ptr<Knight> knight(new Knight(currentPlayer));
+        std::shared_ptr<Rook> rook(new Rook(currentPlayer));
+        std::shared_ptr<Queen> queen(new Queen(currentPlayer));
+
         switch (pieceType)
         {
             case TypeOfPiece::PieceType::BISHOP:
@@ -81,6 +81,7 @@ bool BoardManager::promote(Square& square, TypeOfPiece::PieceType pieceType)
             case TypeOfPiece::PieceType::QUEEN:
             default: // default to Queen
                 piece = queen;
+                break;
         }
         moveList.push_back(Move(square.getPosition(), square.getPosition(), piece, square));
         square.setPiece(piece);
@@ -91,7 +92,7 @@ bool BoardManager::promote(Square& square, TypeOfPiece::PieceType pieceType)
 
 bool BoardManager::isValidPromotion(const Square& square) const
 {
-    if (!square.isOccupied() == true) 
+    if (!square.isOccupied())
     {
         return false;
     }
@@ -111,7 +112,7 @@ bool BoardManager::isValidPromotion(const Square& square) const
     return false;
 }
 
-bool BoardManager::isGameOver()
+bool BoardManager::isGameOver() const
 {
     if (isCheckmate(WHITE) || isCheckmate(BLACK)) 
     {
@@ -120,7 +121,7 @@ bool BoardManager::isGameOver()
     return false;
 }
 
-bool BoardManager::isCheckmate(Color color)
+bool BoardManager::isCheckmate(Color color) const
 {
     std::vector<Square> attackers = getAttackingPieces(color);
 
@@ -200,7 +201,7 @@ void BoardManager::undoMove()
     switchCurrentPlayer();
 }
 
-std::vector<Square> BoardManager::getValidMoves(const Position& position)
+std::vector<Square> BoardManager::getValidMoves(const Position& position) const
 {
     std::vector<Square> moves;
     for (int x = 0; x < 8; x++) 
@@ -352,7 +353,7 @@ void BoardManager::enpassant(Square& initSquare, Square& finalSquare)
     board.makeMove(initSquare, finalSquare);
 }
 
-bool BoardManager::moveMakesCheck(Square& initSquare, Square& finalSquare)
+bool BoardManager::moveMakesCheck(Square& initSquare, Square& finalSquare) const
 {
     std::shared_ptr<Piece> temporaryPiece = finalSquare.getPiece();
     finalSquare.setPiece(initSquare.getPiece());
@@ -474,7 +475,7 @@ bool BoardManager::hasPieceMoved(const Square& square) const
     return false;
 }
 
-bool BoardManager::isValidCastling(Square& kingSquare, Square& rookSquare)
+bool BoardManager::isValidCastling(Square& kingSquare, Square& rookSquare) const
 {
     // Check if the squares are occupied.
     if (!(kingSquare.isOccupied() && rookSquare.isOccupied()))
@@ -517,7 +518,7 @@ bool BoardManager::isValidCastling(Square& kingSquare, Square& rookSquare)
         {
             // Check if there is check in any way between the king and final king square
             int offset;
-            if (sgn(rookSquare.getPosition().getX() - kingSquare.getPosition().getX()) == 1) 
+            if (Position::sgn(rookSquare.getPosition().getX() - kingSquare.getPosition().getX()) == 1)
             {
                 offset = 2;
             }
@@ -550,7 +551,7 @@ bool BoardManager::isValidCastling(Square& kingSquare, Square& rookSquare)
 void BoardManager::castle(const Square& kingSquare, const Square& rookSquare)
 {
     int offset;
-    if (sgn(rookSquare.getPosition().getX() - kingSquare.getPosition().getX()) == 1)
+    if (Position::sgn(rookSquare.getPosition().getX() - kingSquare.getPosition().getX()) == 1)
     {
         offset = 2;
     }
@@ -640,7 +641,7 @@ bool BoardManager::isValidMovement(const Square& initSquare, const Square& final
     return true;
 }
 
-bool BoardManager::isValidMove(Square& initSquare, Square& finalSquare)
+bool BoardManager::isValidMove(Square& initSquare, Square& finalSquare) const
 {
     if (isValidCastling(initSquare, finalSquare))
     {

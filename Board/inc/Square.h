@@ -16,12 +16,12 @@ class Square
 {
 public:
 
-    /*
+    /**
     *  Default constructor
     */
     Square();
 
-    /*
+    /**
     * Destructor
     */
     ~Square();

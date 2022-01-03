@@ -30,29 +30,6 @@ void Piece::setColor(Color color)
 	m_color = color;
 }
 
-std::string Piece::toString() const
-{
-	switch (m_typeOfPiece)
-	{
-	case TypeOfPiece::PAWN:
-		return "Pawn";
-	case TypeOfPiece::ROOK:
-		return "Rook";
-	case TypeOfPiece::BISHOP:
-		return "Bishop";
-	case TypeOfPiece::KNIGHT:
-		return "Knight";
-	case TypeOfPiece::QUEEN:
-		return "Queen";
-	case TypeOfPiece::KING:
-		return "King";
-	case TypeOfPiece::UNKNOWN:
-	default:
-		return "Unknown";
-	}
-	return "UNKNOWN";
-}
-
 TypeOfPiece::PieceType Piece::getType() const
 {
 	return m_typeOfPiece;

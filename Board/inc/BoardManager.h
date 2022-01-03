@@ -22,7 +22,7 @@ class BoardManager
      */
      BoardManager();
 
-     /*
+     /**
      * Destructor
      */
      ~BoardManager();
@@ -80,7 +80,7 @@ class BoardManager
      *
      * @return boolean true if gameOver, else false
      */
-    bool isGameOver();
+    bool isGameOver() const;
 
     /**
      * Returns if the color is checkmated or not.
@@ -88,7 +88,7 @@ class BoardManager
      * @param color - the color to check checkmate for
      * @return bool true if checkmate, else false
      */
-    bool isCheckmate(Color color);
+    bool isCheckmate(Color color) const;
 
     /**
      * This undoes the previous move.
@@ -101,7 +101,7 @@ class BoardManager
      * @param position - the position of the current piece
      * @return vector of squares of possible squares
      */
-    std::vector<Square> getValidMoves(const Position& position);
+    std::vector<Square> getValidMoves(const Position& position) const;
 
     /**
      * Returns the array of squares of the pieces that are attacking the King If
@@ -147,7 +147,7 @@ class BoardManager
      * @param finalSquare - final Square
      * @return bool true if the move makes check, else false
      */
-    bool moveMakesCheck(Square& initSquare, Square& finalSquare);
+    bool moveMakesCheck(Square& initSquare, Square& finalSquare) const;
 
     /**
      * Gets the square of the King
@@ -187,7 +187,7 @@ class BoardManager
      * @param rookSquare - the square of the rook
      * @return bool true if this is valid Castling, else false
      */
-    bool isValidCastling(Square& kingSquare, Square& rookSquare);
+    bool isValidCastling(Square& kingSquare, Square& rookSquare) const;
 
     /**
      * Makes a castle move.
@@ -233,12 +233,7 @@ class BoardManager
      * @param finalSquare - the final Square
      * @return bool true if move is valid, else false
      */
-    bool isValidMove(Square& initSquare, Square& finalSquare);
-
-    template <typename T> int sgn(T val)
-    {
-        return (T(0) < val) - (val < T(0));
-    }
+    bool isValidMove(Square& initSquare, Square& finalSquare) const;
 
   protected:
 

@@ -10,7 +10,9 @@ Position::Position() :
 {
 }
 
-Position::Position(const int8_t x, const int8_t y)
+Position::Position(int8_t x, int8_t y) :
+	m_x(0),
+	m_y(0)
 {
 	if (isNumberValid(x) && isNumberValid(y))
 	{
@@ -28,7 +30,7 @@ int8_t Position::getX() const
 	return m_x;
 }
 
-void Position::setX(const int8_t x)
+void Position::setX(int8_t x)
 {
 	if (isNumberValid(x))
 	{
@@ -41,7 +43,7 @@ int8_t Position::getY() const
 	return m_y;
 }
 
-void Position::setY(const int8_t y)
+void Position::setY(int8_t y)
 {
 	if (isNumberValid(y))
 	{
@@ -113,7 +115,7 @@ Position Position::operator-(const Position& rhs)
 	}
 }
 
-bool Position::isNumberValid(const int8_t numToCheck) const
+bool Position::isNumberValid(int8_t numToCheck) const
 {
 	if (numToCheck > 0 && numToCheck < 9)
 	{

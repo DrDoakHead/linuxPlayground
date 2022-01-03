@@ -48,13 +48,13 @@ class Piece
 	 * gets the string representation of the piece
 	 * @return string representation of the piece
 	 */
-	virtual std::string toString() const;
+	virtual std::string toString() const = 0;
 
 	/**
 	 * gets the type of piece.  This will trigger the derived class
 	 * to return its type
 	 */
-	virtual TypeOfPiece::PieceType getType() const;
+	TypeOfPiece::PieceType getType() const;
 
 	/**
 	* Checks if the move is a valid move by the piece.

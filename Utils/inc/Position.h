@@ -23,7 +23,7 @@ class Position
 	/*
 	* Constructor with the given x and y
 	*/
-	Position(const int8_t x, const int8_t y);
+	Position(int8_t x, int8_t y);
 
 	/*
 	* Destructor
@@ -38,7 +38,7 @@ class Position
 	/*
 	* sets this position's x value
 	*/
-	void setX(const int8_t x);
+	void setX(int8_t x);
 
 	/*
 	* gets this position's y value
@@ -48,7 +48,7 @@ class Position
 	/*
 	* sets this position's y value
 	*/
-	void setY(const int8_t xy);
+	void setY(int8_t xy);
 
 	/*
 	* output a string representation of the position
@@ -86,7 +86,8 @@ class Position
 	*/
 	Position operator-(const Position& rhs);
 
-    template <typename T> inline int sgn(T val)
+    template <typename T>
+    static inline int sgn(T val)
     {
         return (T(0) < val) - (val < T(0));
     }
@@ -96,7 +97,7 @@ class Position
 	/*
 	* checks if a value fits on the chessboard
 	*/
-	bool isNumberValid(const int8_t numToCheck) const;
+	bool isNumberValid(int8_t numToCheck) const;
 
 	int8_t m_x;  ///< x position, 8 bit signed int to catch negative numbers
 	int8_t m_y;  ///< y position, 8 bit signed int to catch negative numbers

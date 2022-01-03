@@ -57,7 +57,7 @@ bool Square::isOccupied() const
 std::string Square::getPieceString() const 
 {
     if (m_piece == nullptr) {
-        return "";
+        return " ";
     }
     return m_piece->toString();
 }

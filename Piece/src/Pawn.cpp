@@ -15,6 +15,11 @@ Pawn::~Pawn()
 {
 }
 
+std::string Pawn::toString() const
+{
+	return "P";
+}
+
 bool Pawn::isValidMove(const Position& initPos, const Position& finalPos) const
 {
     if (initPos == finalPos)

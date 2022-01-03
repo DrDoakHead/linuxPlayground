@@ -16,18 +16,23 @@ class Bishop : public Piece
      */
     Bishop(Color color);
 
-    /*
+    /**
     * Destructor
     */
-    virtual ~Bishop();
+    ~Bishop();
 
-    /*
-    * Copydoc Piece::isValidMove
+    /**
+     * Copydoc::Piece::toString
+     */
+    std::string toString() const;
+
+    /**
+    * Copydoc::Piece::isValidMove
     */
     bool isValidMove(const Position& initPos, const Position& finalPos) const;
 
-    /*
-    * Copydoc Piece::getPath
+    /**
+    * Copydoc::Piece::getPath
     */
     std::vector<Position> getPath(const Position& initPos, const Position& finalPos) const;
 };

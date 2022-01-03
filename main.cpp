@@ -1,8 +1,10 @@
 #include <iostream>
+#include "Board.h"
 
 
 int main()
 {
-	std::cout<<"well hi there"<<std::endl;
+	Board board;
+	board.printBoard();
 	return 0;
 }

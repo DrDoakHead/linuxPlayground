@@ -14,6 +14,11 @@ Queen::~Queen()
 {
 }
 
+std::string Queen::toString() const
+{
+	return "Q";
+}
+
 bool Queen::isValidMove(const Position& initPos, const Position& finalPos) const
 {
     // The queen's valid moves are a combination of Bishop, Rook, and King

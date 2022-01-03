@@ -22,6 +22,8 @@ set(SOURCES
 	main.cpp
 )
 
+#add_subdirectory(${PROJECT_SOURCE_DIR}/Piece/test)
+
 add_executable(chess ${SOURCES})
 
 target_include_directories(chess

@@ -14,6 +14,11 @@ Rook::~Rook()
 {
 }
 
+std::string Rook::toString() const
+{
+	return "R";
+}
+
 bool Rook::isValidMove(const Position& initPos, const Position& finalPos) const
 {
     if (initPos == finalPos)

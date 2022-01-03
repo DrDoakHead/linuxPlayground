@@ -21,6 +21,10 @@ Move::Move(Position initPosition, Position finalPosition, std::shared_ptr<Piece>
 {
 }
 
+Move::~Move()
+{
+}
+
 Position Move::getInitPosition() const
 {
     return initPosition;

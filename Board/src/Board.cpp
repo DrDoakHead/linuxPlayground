@@ -10,6 +10,8 @@
 #include "Queen.h"
 //#include "King.h"
 
+#include <iostream>
+
 Board::Board()
 {
     setSquares();
@@ -32,9 +34,10 @@ void Board::setSquares()
 {
     for (int8_t x = 0; x < 8; x++)
     {
+    	board.push_back(std::vector<Square>());
         for (int8_t y = 0; y < 8; y++)
         {
-            board[x][y] = Square(Position(x, y));
+            board.at(x).push_back(Square(Position(x, y)));
         }
     }
 }
@@ -145,14 +148,16 @@ void Board::capturePiece(Square& square) const
     }
 }
 
-void Board::printBoard() 
-{/*
+void Board::printBoard() const
+{
     for (int y = 7; y >= 0; y--) 
     {
+    	std::cout << " ================================ " << std::endl;
         for (int x = 0; x < 8; x++)
         {
-            System.out.print(board[x][y].getPieceString() + " ");
+            std::cout << "| " + (board[x][y].getPieceString() + " ");
         }
-        System.out.print('\n');
-    }*/
+        std::cout << "|" << std::endl;
+    }
+    std::cout << " ================================ " << std::endl;
 }

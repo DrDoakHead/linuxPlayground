@@ -44,6 +44,11 @@ public:
         std::shared_ptr<Piece> piece, Square captureSquare);
 
     /**
+     * Destructor
+     */
+    ~Move();
+
+    /**
      * Returns the initial move position
      *
      * @return Position The initial position

@@ -17,7 +17,7 @@ class Board
      */
     Board();
 
-    /*
+    /**
     * Destructor
     */
     ~Board();
@@ -85,7 +85,7 @@ class Board
     /**
      * This prints the board in the command line.
      */
-    void printBoard();
+    void printBoard() const;
 
   protected:
 

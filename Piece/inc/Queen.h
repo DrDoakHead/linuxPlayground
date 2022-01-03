@@ -17,18 +17,23 @@ class Queen : public Piece
      */
     Queen(Color color);
 
-    /*
+    /**
     * Destrutor
     */
-    virtual ~Queen();
+    ~Queen();
 
-    /*
-    * copydoc Piece::isValidMove
+    /**
+    * Copydoc::Piece::toString
+    */
+    std::string toString() const;
+
+    /**
+    * Copydoc::Piece::isValidMove
     */
     bool isValidMove(const Position& initPos, const Position& finalPos) const;
 
     /*
-    * copydoc Piece::getPath
+    * Copydoc::Piece::getPath
     */
     std::vector<Position> getPath(const Position& initPos, const Position& finalPos) const;
 };
