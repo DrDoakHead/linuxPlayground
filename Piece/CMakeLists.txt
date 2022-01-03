@@ -2,6 +2,7 @@ include_directories(inc)
 
 set(SOURCES
 	src/Bishop.cpp
+	src/King.cpp
 	src/Knight.cpp
 	src/Pawn.cpp
 	src/Piece.cpp

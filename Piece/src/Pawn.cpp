@@ -46,7 +46,6 @@ bool Pawn::isValidMove(const Position& initPos, const Position& finalPos) const
                 return true;
             }
         }
-        else {/*No else case*/ }
     }
 
     // This is for first pawn move
@@ -70,7 +69,6 @@ bool Pawn::isValidMove(const Position& initPos, const Position& finalPos) const
                 return true;
             }
         }
-        else{/*No else class*/ }
     }
 
     // This if for normal pawn captures.
@@ -89,9 +87,10 @@ std::vector<Position> Pawn::getPath(const Position& initPos, const Position& fin
         return std::vector<Position>{initPos, finalPos}; 
     }
     // This is for normal pawn moves and first pawn moves
-    int pathLength = abs(initPos.getY() - finalPos.getY()) + 1;
+    int8_t pathLength = abs(initPos.getY() - finalPos.getY()) + 1;
     std::vector<Position> path;
-    for (int cnt = 0; cnt < pathLength; cnt++) {
+    for (int8_t cnt = 0; cnt < pathLength; cnt++)
+    {
         path.push_back(Position(initPos.getX(), std::min(initPos.getY(), finalPos.getY()) + cnt));
     }
     return path;

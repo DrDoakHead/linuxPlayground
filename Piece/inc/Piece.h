@@ -58,16 +58,16 @@ class Piece
 
 	/**
 	* Checks if the move is a valid move by the piece.
-	* @param initPos Initial Coordinate
-	* @param finalPos Final Coordinate
+	* @param initPos Initial Position
+	* @param finalPos Final Position
 	* @return bool true if the move is valid, else false
 	*/
 	virtual bool isValidMove(const Position& initPos, const Position& finalPos) const = 0;
 
 	/**
 	 * Return the path for movement.
-	 * @param initPos The initial Coordinate
-	 * @param finalPos The final Coordinate
+	 * @param initPos The initial Position
+	 * @param finalPos The final Position
 	 * @return vector of positions - the Path for the movement
 	 */
 	virtual std::vector<Position> getPath(const Position& initPos, const Position& finalPos) const = 0;

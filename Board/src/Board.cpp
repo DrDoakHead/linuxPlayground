@@ -8,7 +8,7 @@
 #include "Knight.h"
 #include "Pawn.h"
 #include "Queen.h"
-//#include "King.h"
+#include "King.h"
 
 #include <iostream>
 
@@ -49,7 +49,7 @@ void Board::setWhitePieces()
     std::shared_ptr<Knight> knight(new Knight(WHITE));
     std::shared_ptr<Pawn> pawn(new Pawn(WHITE));
     std::shared_ptr<Queen> queen(new Queen(WHITE));
-    //std::shared_ptr<King> king(new King(WHITE));
+    std::shared_ptr<King> king(new King(WHITE));
 
     board[2][0].setPiece(bishop);
     board[5][0].setPiece(bishop);
@@ -58,7 +58,7 @@ void Board::setWhitePieces()
     board[0][0].setPiece(rook);
     board[7][0].setPiece(rook);
     board[3][0].setPiece(queen);
-    //board[4][0].setPiece(king);
+    board[4][0].setPiece(king);
     board[0][1].setPiece(pawn);
     board[1][1].setPiece(pawn);
     board[2][1].setPiece(pawn);
@@ -76,7 +76,7 @@ void Board::setBlackPieces()
     std::shared_ptr<Knight> knight(new Knight(BLACK));
     std::shared_ptr<Pawn> pawn(new Pawn(BLACK));
     std::shared_ptr<Queen> queen(new Queen(WHITE));
-    //std::shared_ptr<King> king(new King(WHITE));
+    std::shared_ptr<King> king(new King(WHITE));
 
     board[2][7].setPiece(bishop);
     board[5][7].setPiece(bishop);
@@ -85,7 +85,7 @@ void Board::setBlackPieces()
     board[0][7].setPiece(rook);
     board[7][7].setPiece(rook);
     board[3][7].setPiece(queen);
-    //board[4][7].setPiece(king);
+    board[4][7].setPiece(king);
     board[0][6].setPiece(pawn);
     board[1][6].setPiece(pawn);
     board[2][6].setPiece(pawn);

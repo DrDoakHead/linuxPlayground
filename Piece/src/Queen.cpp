@@ -28,8 +28,8 @@ bool Queen::isValidMove(const Position& initPos, const Position& finalPos) const
     }
 
     // This is the bishop move
-    int diffX = abs(initPos.getX() - finalPos.getX());
-    int diffY = abs(initPos.getY() - finalPos.getY());
+    int8_t diffX = abs(initPos.getX() - finalPos.getX());
+    int8_t diffY = abs(initPos.getY() - finalPos.getY());
     if (diffX == diffY)
     {
         return true;
@@ -60,9 +60,10 @@ std::vector<Position> Queen::getPath(const Position& initPos, const Position& fi
     if (initPos.getX() == finalPos.getX() ||
         initPos.getY() == finalPos.getY())
     {
-        int pathLength = abs(initPos.getX() - finalPos.getX())
+        int8_t pathLength = abs(initPos.getX() - finalPos.getX())
             + abs(initPos.getY() - finalPos.getY()) + 1;
-        for (int cnt = 0; cnt < pathLength; cnt++)
+
+        for (int8_t cnt = 0; cnt < pathLength; cnt++)
         {
             if (initPos.getX() == finalPos.getX())
             {
@@ -75,27 +76,26 @@ std::vector<Position> Queen::getPath(const Position& initPos, const Position& fi
         }
 
     }
-    else if (abs(initPos.getX() - finalPos.getX() == abs(initPos.getY() - finalPos.getY())))
+    // If it is a bishop move
+    else if (abs(initPos.getX() - finalPos.getX()) == abs(initPos.getY() - finalPos.getY()))
     {
-        //If it a bishop move.
         int pathLength = (abs(initPos.getX() - finalPos.getX()) +
             abs(initPos.getY() - finalPos.getY())) / 2 + 1;
 
-        //Integer.signum(a) provides the sign of a number 1 if positive and -1 if negative.
         //In this case i am considering initPos as the first point and finalPos as second
-//        int deltaX = finalPos.getX() - initPos.getX();
-//        int deltaY = finalPos.getY() - initPos.getY();
-//        int i_X = sgn(deltaX);
-//        int i_Y = sgn(deltaY);
-//
-//        for (int cnt = 0; cnt < pathLength; cnt++)
-//        {
-//            path.push_back(Position(initPos.getX() + i_X * cnt, initPos.getY() + i_Y * cnt));
-//        }
-    }
-    else
-    {
-    }
+        int8_t i_X = Position::sgn(finalPos.getX() - initPos.getX());
+        int8_t i_Y = Position::sgn(finalPos.getY() - initPos.getY());
 
+        for (int8_t cnt = 0; cnt < pathLength; cnt++)
+        {
+            path.push_back(Position(initPos.getX() + i_X * cnt, initPos.getY() + i_Y * cnt));
+        }
+    }
+    // If it is a king move
+    else if ((abs(initPos.getX() - finalPos.getX()) + abs(initPos.getY() - finalPos.getY())) == 1)
+    {
+        path.push_back(initPos);
+        path.push_back(finalPos);
+    }
     return path;
 }

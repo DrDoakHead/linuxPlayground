@@ -87,7 +87,7 @@ class Position
 	Position operator-(const Position& rhs);
 
     template <typename T>
-    static inline int sgn(T val)
+    static inline int8_t sgn(T val)
     {
         return (T(0) < val) - (val < T(0));
     }
