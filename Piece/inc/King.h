@@ -12,7 +12,7 @@ class King : public Piece
   public:
     /**
      * Construtor
-     * @param color The color the queen belongs to
+     * @param color The color the king belongs to
      */
     King(Color color);
 

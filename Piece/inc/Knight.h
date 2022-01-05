@@ -22,9 +22,9 @@ class Knight : public Piece
     ~Knight();
 
     /**
-	 * Copydoc::Piece::toString
-	 */
-	std::string toString() const;
+     * Copydoc::Piece::toString
+     */
+    std::string toString() const;
 
     /**
     * Copydoc::Piece::isValidMove

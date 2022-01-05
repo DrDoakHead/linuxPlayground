@@ -1,4 +1,4 @@
-/*
+/**
 *  Definition of the Rook class.
 */
 
@@ -16,7 +16,7 @@ Rook::~Rook()
 
 std::string Rook::toString() const
 {
-	return "R";
+    return "R";
 }
 
 bool Rook::isValidMove(const Position& initPos, const Position& finalPos) const

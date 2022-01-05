@@ -12,7 +12,7 @@ class Bishop : public Piece
   public:
     /**
      * Construtor
-     * @param color The color the queen belongs to
+     * @param color The color the bishop belongs to
      */
     Bishop(Color color);
 

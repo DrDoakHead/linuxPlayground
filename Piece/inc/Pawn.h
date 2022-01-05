@@ -12,7 +12,7 @@ class Pawn : public Piece
 public:
     /**
      * Construtor
-     * @param color - The color the piece belongs to
+     * @param color - The color the pawn belongs to
      */
     Pawn(Color Color);
 

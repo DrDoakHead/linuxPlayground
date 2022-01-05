@@ -1,3 +1,4 @@
+cmake_minimum_required(VERSION 3.10 FATAL_ERROR)
 include(GoogleTest)
 
 set(SOURCES
@@ -6,4 +7,9 @@ set(SOURCES
 
 add_executable(testUtils ${SOURCES})
 
-target_link_libraries(testUtils gtest gmock_main)
+target_link_libraries(
+	testUtils 
+	gtest 
+	gmock_main
+	Utils
+)

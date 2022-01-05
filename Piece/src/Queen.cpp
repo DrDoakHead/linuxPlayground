@@ -16,7 +16,7 @@ Queen::~Queen()
 
 std::string Queen::toString() const
 {
-	return "Q";
+    return "Q";
 }
 
 bool Queen::isValidMove(const Position& initPos, const Position& finalPos) const

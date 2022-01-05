@@ -16,7 +16,7 @@ Bishop::~Bishop()
 
 std::string Bishop::toString() const
 {
-	return "B";
+    return "B";
 }
 
 bool Bishop::isValidMove(const Position& initPos, const Position& finalPos) const

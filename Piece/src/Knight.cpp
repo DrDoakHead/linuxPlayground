@@ -16,7 +16,7 @@ Knight::~Knight()
 
 std::string Knight::toString() const
 {
-	return "k";
+    return "k";
 }
 
 bool Knight::isValidMove(const Position& initPos, const Position& finalPos) const
