@@ -6,21 +6,18 @@
 #include <sstream>
 
 Position::Position() :
-    m_x(0),
-    m_y(0)
+    m_x(-1),
+    m_y(-1)
 {
 }
 
 Position::Position(int8_t x, int8_t y) :
-    m_x(0),
-    m_y(0)
+    m_x(-1),
+    m_y(-1)
 {
-    if (isNumberValid(x))
+    if (isNumberValid(x) && isNumberValid(y))
     {
         m_x = x;
-    }
-    if (isNumberValid(y))
-    {
         m_y = y;
     }
 }

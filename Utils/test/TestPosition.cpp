@@ -24,20 +24,24 @@ class TestPosition : public ::testing::Test
 TEST_F(TestPosition, constructors)
 {
     Position pos(28, 42);
-    EXPECT_EQ(0, pos.getX());
-    EXPECT_EQ(0, pos.getY());
+    EXPECT_EQ(-1, pos.getX());
+    EXPECT_EQ(-1, pos.getY());
 
     Position pos2;
-    EXPECT_EQ(0, pos2.getX());
-    EXPECT_EQ(0, pos2.getY());
+    EXPECT_EQ(-1, pos2.getX());
+    EXPECT_EQ(-1, pos2.getY());
 
     Position pos3(2, 42);
-    EXPECT_EQ(2, pos3.getX());
-    EXPECT_EQ(0, pos3.getY());
+    EXPECT_EQ(-1, pos3.getX());
+    EXPECT_EQ(-1, pos3.getY());
 
     Position pos4(28, 4);
-    EXPECT_EQ(0, pos4.getX());
-    EXPECT_EQ(4, pos4.getY());
+    EXPECT_EQ(-1, pos4.getX());
+    EXPECT_EQ(-1, pos4.getY());
+
+    Position pos5(2, 5);
+    EXPECT_EQ(2, pos5.getX());
+    EXPECT_EQ(5, pos5.getY());
 }
 
 TEST_F(TestPosition, setters)
@@ -75,7 +79,7 @@ TEST_F(TestPosition, overloadedOperators)
 TEST_F(TestPosition, toString)
 {
     Position pos;
-    EXPECT_STREQ(pos.toString().c_str(), "x = 0, y = 0");
+    EXPECT_STREQ(pos.toString().c_str(), "x = -1, y = -1");
 
     Position pos2(7, 6);
     EXPECT_STREQ(pos2.toString().c_str(), "x = 7, y = 6");

@@ -3,10 +3,10 @@ include(GoogleTest)
 set(SOURCES
 	TestBishop.cpp
 	TestKing.cpp
-	#TestKnight.cpp
-	#TestPawn.cpp
-	#TestQueen.cpp
-	#TestRook.cpp
+	TestKnight.cpp
+	TestPawn.cpp
+	TestQueen.cpp
+	TestRook.cpp
 )
 
 add_executable(testPiece ${SOURCES})

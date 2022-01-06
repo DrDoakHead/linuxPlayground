@@ -1,5 +1,5 @@
 /**
- * Unit tests for the bishop class
+ * Unit tests for the king class
  */
 
 #include <gtest/gtest.h>

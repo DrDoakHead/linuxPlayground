@@ -16,7 +16,7 @@ class Position
   public:
 
     /**
-    * Default constructor.  Initalize position to invalid (0, 0)
+    * Default constructor.  Initalize position to invalid (-1, -1)
     */
     Position();
 

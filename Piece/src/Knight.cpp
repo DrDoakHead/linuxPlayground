@@ -16,7 +16,7 @@ Knight::~Knight()
 
 std::string Knight::toString() const
 {
-    return "k";
+    return "N";
 }
 
 bool Knight::isValidMove(const Position& initPos, const Position& finalPos) const
@@ -26,9 +26,12 @@ bool Knight::isValidMove(const Position& initPos, const Position& finalPos) cons
         return false;
     }
 
-    int diffX = abs(initPos.getX() - finalPos.getX());
-    int diffY = abs(initPos.getY() - finalPos.getY());
-    if ((diffX + diffY) == 3 && diffX != 0 && diffY != 0)
+    int8_t diffX = abs(initPos.getX() - finalPos.getX());
+    int8_t diffY = abs(initPos.getY() - finalPos.getY());
+
+    if ((diffX + diffY) == 3 &&
+        diffX != 0 &&
+        diffY != 0)
     {
         return true;
     }
@@ -37,7 +40,5 @@ bool Knight::isValidMove(const Position& initPos, const Position& finalPos) cons
 
 std::vector<Position> Knight::getPath(const Position& initPos, const Position& finalPos) const
 {
-    //The knight can jump over pieces...only look at the end spots
-    // @Todo figure out the math on this 
-    return std::vector<Position>{ initPos,finalPos };
+    return std::vector<Position>{initPos, finalPos};
 }

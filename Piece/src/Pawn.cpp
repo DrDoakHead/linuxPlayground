@@ -26,9 +26,12 @@ bool Pawn::isValidMove(const Position& initPos, const Position& finalPos) const
     {
         return false;
     }
+
+    int8_t diffX = abs(initPos.getX() - finalPos.getX());
+    int8_t diffY = abs(initPos.getY() - finalPos.getY());
+
     // This is for normal pawn moves.
-    if (abs(initPos.getY() - finalPos.getY()) == 1 &&
-        abs(initPos.getX() - finalPos.getX()) == 0)
+    if (diffX == 0 && diffY == 1)
     {
         // White can only move forward
         if (m_color == WHITE)
@@ -49,9 +52,8 @@ bool Pawn::isValidMove(const Position& initPos, const Position& finalPos) const
     }
 
     // This is for first pawn move
-    if (abs(initPos.getY() - finalPos.getY()) == 2 &&
-        abs(initPos.getX() - finalPos.getX()) == 0 &&
-        (initPos.getY() == 1 || initPos.getY() == 6))
+    if (diffX == 0 && diffY == 2 &&
+       (initPos.getY() == 1 || initPos.getY() == 6))
     {
         // White can only move forward
         if (m_color == WHITE)
@@ -71,10 +73,14 @@ bool Pawn::isValidMove(const Position& initPos, const Position& finalPos) const
         }
     }
 
-    // This if for normal pawn captures.
-    //@ Todo
-    // this is for Enpassant.
-    //@ Todo
+    // Todo
+    // Need to check the board as an attack must be made to do the following moves
+    // This is for normal pawn captures
+
+    // En-passant rules
+    // 1) pawn must be row 4 if white, row 3 if black
+    // 2) capture must have done a 2 banger
+    // 3) pawn must capture right after the 2 banger
 
     return false;
 }
