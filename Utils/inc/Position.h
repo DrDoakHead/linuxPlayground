@@ -1,7 +1,7 @@
 /*
-	Decleration of the Position class.  This class holds two unsigned integer values
-	that represent a position on the board.  The position are between 1-8 inclusive,
-	in the x and y directions.  < 1 and > 8 are invalid.
+	Decleration of the Position class.  This class holds two signed integer values
+	that represent a position on the board.  The position are between 0-7 inclusive,
+	in the x and y directions.  < 0 and > 7 are invalid.
 */
 
 #ifndef POSITION_H

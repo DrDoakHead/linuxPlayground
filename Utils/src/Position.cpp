@@ -3,6 +3,7 @@
 */
 
 #include "Position.h"
+#include <sstream>
 
 Position::Position() :
     m_x(0),
@@ -56,10 +57,10 @@ void Position::setY(int8_t y)
 
 std::string Position::toString() const
 {
-    std::string output;
-    output = "x = " + m_x;
-    output += ", y = " + m_y;
-    return output;
+    std::stringstream ss;
+    ss << "x = " << static_cast<int>(m_x);
+    ss << ", y = " << static_cast<int>(m_y);
+    return ss.str();
 }
 
 Position Position::operator=(const Position& rhs)
@@ -120,7 +121,7 @@ Position Position::operator-(const Position& rhs)
 
 bool Position::isNumberValid(int8_t numToCheck) const
 {
-    if (numToCheck > 0 && numToCheck < 9)
+    if (numToCheck > -1 && numToCheck < 8)
     {
         return true;
     }

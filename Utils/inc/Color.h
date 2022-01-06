@@ -1,6 +1,6 @@
 /*
 	Decleration of the color enumeration.  This is its own header file so it can be
-	accessed staticly
+	accessed easily
 */
 
 #ifndef COLOR_H
