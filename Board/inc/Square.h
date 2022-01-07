@@ -8,9 +8,7 @@
 
 #include "Piece.h"
 #include "Position.h"
-#include <string>
 #include <memory>
-#include <cstdlib>
 
 class Square
 {

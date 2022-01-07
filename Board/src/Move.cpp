@@ -5,14 +5,15 @@
 
 #include "Move.h"
 
-Move::Move(Position initPosition, Position finalPosition, std::shared_ptr<Piece> piece) :
+Move::Move(const Position& initPosition, const Position& finalPosition, const std::shared_ptr<Piece>& piece) :
     initPosition(initPosition),
     finalPosition(finalPosition),
     piece(piece)
 {
 }
 
-Move::Move(Position initPosition, Position finalPosition, std::shared_ptr<Piece> piece, Square captureSquare) :
+Move::Move(const Position& initPosition, const Position& finalPosition,
+           const std::shared_ptr<Piece>& piece, const Square& captureSquare) :
     initPosition(initPosition),
     finalPosition(finalPosition),
     piece(piece),

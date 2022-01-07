@@ -11,13 +11,13 @@ add_subdirectory(${PROJECT_SOURCE_DIR}/lib/googletest)
 add_executable(chessBackend main.cpp)
 
 target_link_libraries(chessBackend
-	Utils
-	Piece
- 	Board
+    Utils
+    Piece
+    Board
  )
  
 target_include_directories(chessBackend PRIVATE
-	${PROJECT_SOURCE_DIR}/Piece/inc
-	${PROJECT_SOURCE_DIR}/Utils/inc
-	${PROJECT_SOURCE_DIR}/Board/inc
+    ${PROJECT_SOURCE_DIR}/Piece/inc
+    ${PROJECT_SOURCE_DIR}/Utils/inc
+    ${PROJECT_SOURCE_DIR}/Board/inc
 )

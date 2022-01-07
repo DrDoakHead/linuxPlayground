@@ -26,7 +26,8 @@ public:
      * @param piece
      *            The piece that was moved
      */
-    Move(Position initPosition, Position finalPosition, std::shared_ptr<Piece> piece);
+    Move(const Position& initPosition, const Position& finalPosition,
+         const std::shared_ptr<Piece>& piece);
 
     /**
      * Creates a move object. Promotions are represented as movement to the same
@@ -40,8 +41,8 @@ public:
      *            The piece that was moved
      * @param captureSquare The square of the piece that was captured.
      */
-    Move(Position initPosition, Position finalPosition,
-        std::shared_ptr<Piece> piece, Square captureSquare);
+    Move(const Position& initPosition, const Position& finalPosition,
+        const std::shared_ptr<Piece>& piece, const Square& captureSquare);
 
     /**
      * Destructor
@@ -71,7 +72,7 @@ public:
 
     /**
      * Checks if the move was a capture
-     * @return bool true fi the move was a capture move, else false
+     * @return bool true if the move was a capture move, else false
      */
     bool isCapture() const;
 

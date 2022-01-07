@@ -44,56 +44,42 @@ void Board::setSquares()
 
 void Board::setWhitePieces() 
 {
-    std::shared_ptr<Rook> rook(new Rook(WHITE));
-    std::shared_ptr<Bishop> bishop(new Bishop(WHITE));
-    std::shared_ptr<Knight> knight(new Knight(WHITE));
-    std::shared_ptr<Pawn> pawn(new Pawn(WHITE));
-    std::shared_ptr<Queen> queen(new Queen(WHITE));
-    std::shared_ptr<King> king(new King(WHITE));
-
-    board[2][0].setPiece(bishop);
-    board[5][0].setPiece(bishop);
-    board[1][0].setPiece(knight);
-    board[6][0].setPiece(knight);
-    board[0][0].setPiece(rook);
-    board[7][0].setPiece(rook);
-    board[3][0].setPiece(queen);
-    board[4][0].setPiece(king);
-    board[0][1].setPiece(pawn);
-    board[1][1].setPiece(pawn);
-    board[2][1].setPiece(pawn);
-    board[3][1].setPiece(pawn);
-    board[4][1].setPiece(pawn);
-    board[5][1].setPiece(pawn);
-    board[6][1].setPiece(pawn);
-    board[7][1].setPiece(pawn);
+    board[2][0].setPiece(std::shared_ptr<Bishop>(new Bishop(WHITE)));
+    board[5][0].setPiece(std::shared_ptr<Bishop>(new Bishop(WHITE)));
+    board[1][0].setPiece(std::shared_ptr<Knight>(new Knight(WHITE)));
+    board[6][0].setPiece(std::shared_ptr<Knight>(new Knight(WHITE)));
+    board[0][0].setPiece(std::shared_ptr<Rook>(new Rook(WHITE)));
+    board[7][0].setPiece(std::shared_ptr<Rook>(new Rook(WHITE)));
+    board[3][0].setPiece(std::shared_ptr<Queen>(new Queen(WHITE)));
+    board[4][0].setPiece(std::shared_ptr<King>(new King(WHITE)));
+    board[0][1].setPiece(std::shared_ptr<Pawn>(new Pawn(WHITE)));
+    board[1][1].setPiece(std::shared_ptr<Pawn>(new Pawn(WHITE)));
+    board[2][1].setPiece(std::shared_ptr<Pawn>(new Pawn(WHITE)));
+    board[3][1].setPiece(std::shared_ptr<Pawn>(new Pawn(WHITE)));
+    board[4][1].setPiece(std::shared_ptr<Pawn>(new Pawn(WHITE)));
+    board[5][1].setPiece(std::shared_ptr<Pawn>(new Pawn(WHITE)));
+    board[6][1].setPiece(std::shared_ptr<Pawn>(new Pawn(WHITE)));
+    board[7][1].setPiece(std::shared_ptr<Pawn>(new Pawn(WHITE)));
 }
 
 void Board::setBlackPieces()
 {
-    std::shared_ptr<Rook> rook(new Rook(BLACK));
-    std::shared_ptr<Bishop> bishop(new Bishop(BLACK));
-    std::shared_ptr<Knight> knight(new Knight(BLACK));
-    std::shared_ptr<Pawn> pawn(new Pawn(BLACK));
-    std::shared_ptr<Queen> queen(new Queen(WHITE));
-    std::shared_ptr<King> king(new King(WHITE));
-
-    board[2][7].setPiece(bishop);
-    board[5][7].setPiece(bishop);
-    board[1][7].setPiece(knight);
-    board[6][7].setPiece(knight);
-    board[0][7].setPiece(rook);
-    board[7][7].setPiece(rook);
-    board[3][7].setPiece(queen);
-    board[4][7].setPiece(king);
-    board[0][6].setPiece(pawn);
-    board[1][6].setPiece(pawn);
-    board[2][6].setPiece(pawn);
-    board[3][6].setPiece(pawn);
-    board[4][6].setPiece(pawn);
-    board[5][6].setPiece(pawn);
-    board[6][6].setPiece(pawn);
-    board[7][6].setPiece(pawn);
+    board[2][7].setPiece(std::shared_ptr<Bishop>(new Bishop(BLACK)));
+    board[5][7].setPiece(std::shared_ptr<Bishop>(new Bishop(BLACK)));
+    board[1][7].setPiece(std::shared_ptr<Knight>(new Knight(BLACK)));
+    board[6][7].setPiece(std::shared_ptr<Knight>(new Knight(BLACK)));
+    board[0][7].setPiece(std::shared_ptr<Rook>(new Rook(BLACK)));
+    board[7][7].setPiece(std::shared_ptr<Rook>(new Rook(BLACK)));
+    board[3][7].setPiece(std::shared_ptr<Queen>(new Queen(BLACK)));
+    board[4][7].setPiece(std::shared_ptr<King>(new King(BLACK)));
+    board[0][6].setPiece(std::shared_ptr<Pawn>(new Pawn(BLACK)));
+    board[1][6].setPiece(std::shared_ptr<Pawn>(new Pawn(BLACK)));
+    board[2][6].setPiece(std::shared_ptr<Pawn>(new Pawn(BLACK)));
+    board[3][6].setPiece(std::shared_ptr<Pawn>(new Pawn(BLACK)));
+    board[4][6].setPiece(std::shared_ptr<Pawn>(new Pawn(BLACK)));
+    board[5][6].setPiece(std::shared_ptr<Pawn>(new Pawn(BLACK)));
+    board[6][6].setPiece(std::shared_ptr<Pawn>(new Pawn(BLACK)));
+    board[7][6].setPiece(std::shared_ptr<Pawn>(new Pawn(BLACK)));
 }
 
 std::vector<std::vector<Square> > Board::getBoard() const

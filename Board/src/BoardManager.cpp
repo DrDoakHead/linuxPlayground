@@ -10,7 +10,7 @@
 #include "Pawn.h"
 
 BoardManager::BoardManager() :
-    currentPlayer(UNKNOWN)
+    currentPlayer(WHITE)
 {
     board = Board();
 }
@@ -254,7 +254,7 @@ bool BoardManager::move(const Position& initPosition, const Position& finalPosit
     Square s2 = board.getSquare(finalPosition);
     //Checks for sane moves
     if (!isSaneMove(s1, s2)) 
-    { 
+    {
         return false; 
     }
     // Only the current player can move the piece.
@@ -277,7 +277,8 @@ bool BoardManager::move(const Position& initPosition, const Position& finalPosit
             moveList.push_back(Move(s1.getPosition(), s2.getPosition(), tmp, capture));
             return true;
         }
-        else if (isValidMove(s1, s2)) {
+        else if (isValidMove(s1, s2))
+        {
             switchCurrentPlayer();
             moveList.push_back(Move(s1.getPosition(), s2.getPosition(), s1.getPiece(), s1));
             board.makeMove(s1, s2);
@@ -567,15 +568,18 @@ void BoardManager::castle(const Square& kingSquare, const Square& rookSquare)
         rookSquare.getPosition().getY()));
 }
 
-bool BoardManager::isPathClear(const std::vector<Position>& path, 
+bool BoardManager::isPathClear(const std::vector<Position>& path,
     const Position& initCoordinate,
     const Position& finalCoordinate) const
 {
     std::vector<std::vector<Square> > squares = board.getBoard();
-    for (Position position : path) {
-        if ((squares.at(position.getX()).at(position.getY()).isOccupied())
-            && (position != initCoordinate)
-            && (position != finalCoordinate)) 
+    for (Position position : path)
+    {
+        if (position == initCoordinate || position == finalCoordinate)
+        {
+            continue;
+        }
+        if ((squares.at(position.getX()).at(position.getY()).isOccupied()))
         {
             return false;
         }
@@ -614,12 +618,14 @@ bool BoardManager::isValidMovement(const Square& initSquare, const Square& final
         }
     }
     // Check all movements here. Normal Moves, Pawn Captures and Enpassant.
+
     // Castling are handled by the move function itself.
     // If the piece cannot move to the square. No such movement.
     if (!initSquare.getPiece()->isValidMove(initSquare.getPosition(),
         finalSquare.getPosition()) &&
         !isValidPawnCapture(initSquare, finalSquare) &&
-        !isValidEnpassant(initSquare, finalSquare)) {
+        !isValidEnpassant(initSquare, finalSquare))
+    {
         return false;
     }
     // Pawns cannot capture forward.
@@ -633,6 +639,7 @@ bool BoardManager::isValidMovement(const Square& initSquare, const Square& final
     // If piece is blocked by other pieces
     std::vector<Position> path = initSquare.getPiece()->getPath(
         initSquare.getPosition(), finalSquare.getPosition());
+
     if (!isPathClear(path, initSquare.getPosition(),
         finalSquare.getPosition()))
     {
