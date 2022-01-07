@@ -46,14 +46,14 @@ class Board
      * Returns all the squares on the board
      * @return vector of Square A 2 dimensional array of all the Squares
      */
-    std::vector<std::vector<Square> > getBoard() const;
+    std::vector<std::vector<std::shared_ptr<Square> > > getBoard() const;
 
     /**
      * This gets the square with a specific position
      * @param position position of the square
      * @return Square The Square object
      */
-    Square getSquare(const Position& position) const;
+    std::shared_ptr<Square> getSquare(const Position& position) const;
 
     /**
      * Makes a Move from the start position to the final position
@@ -67,7 +67,7 @@ class Board
      * @param initSquare The initial Square.
      * @param finalSquare The final Square
      */
-    void makeMove(Square& initSquare, Square& finalSquare);
+    void makeMove(std::shared_ptr<Square> initSquare, std::shared_ptr<Square> finalSquare);
 
     /**
      * This set the piece in the specified coordinate
@@ -80,7 +80,7 @@ class Board
      * Captures the piece that is present in the square.
      * @param square The square of the piece
      */
-    void capturePiece(Square& square) const;
+    void capturePiece(std::shared_ptr<Square>& square) const;
 
     /**
      * This prints the board in the command line.
@@ -89,7 +89,7 @@ class Board
 
   protected:
 
-      std::vector<std::vector<Square> > board;
+      std::vector<std::vector<std::shared_ptr<Square> > > board;
 };
 
 #endif // BOARD_H

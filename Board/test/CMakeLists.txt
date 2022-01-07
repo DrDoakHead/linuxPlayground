@@ -1,10 +1,10 @@
 include(GoogleTest)
 
 set(SOURCES
-    TestBoard.cpp
+    #TestBoard.cpp
     TestBoardManager.cpp
-    TestMove.cpp
-    TestSquare.cpp
+    #TestMove.cpp
+    #TestSquare.cpp
 )
 
 add_executable(testBoard ${SOURCES})

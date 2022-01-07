@@ -65,7 +65,7 @@ class BoardManager
      * @param pieceType - the type of piece to promote to. Default to QUEEN.
      * @return boolean If the promotion was made
      */
-    bool promote(Square& square, TypeOfPiece::PieceType pieceType=TypeOfPiece::QUEEN);
+    bool promote(std::shared_ptr<Square>& square, TypeOfPiece::PieceType pieceType=TypeOfPiece::QUEEN);
 
     /**
      * Checks if the square contains a pawn that can be promoted.
@@ -73,7 +73,7 @@ class BoardManager
      * @param square - square to check
      * @return bool true if the pawn can be promoted, false if not
      */
-    bool isValidPromotion(const Square& square) const;
+    bool isValidPromotion(const std::shared_ptr<Square>& square) const;
 
     /**
      * Returns if either of the players are checkmated.
@@ -101,7 +101,7 @@ class BoardManager
      * @param position - the position of the current piece
      * @return vector of squares of possible squares
      */
-    std::vector<Square> getValidMoves(const Position& position) const;
+    std::vector<std::shared_ptr<Square> > getValidMoves(const Position& position) const;
 
     /**
      * Returns the array of squares of the pieces that are attacking the King If
@@ -111,7 +111,7 @@ class BoardManager
      * @return Squares[] The vector of squares of pieces that are attacking the KING
      * @Note Max Size of array is 2
      */
-    std::vector<Square> getAttackingPieces(Color color) const;
+    std::vector<std::shared_ptr<Square> > getAttackingPieces(Color color) const;
 
     /**
      * Makes a move from initial coordinate to final one. It calls
@@ -130,7 +130,7 @@ class BoardManager
      * @param finalSquare - final Square
      * @return bool true if valid move, else false
      */
-    bool isValidEnpassant(const Square& initSquare, const Square& finalSquare) const;
+    bool isValidEnpassant(const std::shared_ptr<Square>& initSquare, const std::shared_ptr<Square>& finalSquare) const;
 
     /**
      * Makes a Enpassant move
@@ -138,7 +138,7 @@ class BoardManager
      * @param initSquare - initial Square
      * @param finalSquare - final Square
      */
-    void enpassant(Square& initSquare, Square& finalSquare);
+    void enpassant(std::shared_ptr<Square>& initSquare, std::shared_ptr<Square>& finalSquare);
 
     /**
      * Checks if the given move makes check for the moving player
@@ -147,7 +147,7 @@ class BoardManager
      * @param finalSquare - final Square
      * @return bool true if the move makes check, else false
      */
-    bool moveMakesCheck(Square& initSquare, Square& finalSquare) const;
+    bool moveMakesCheck(std::shared_ptr<Square>& initSquare, std::shared_ptr<Square>& finalSquare) const;
 
     /**
      * Gets the square of the King
@@ -155,7 +155,7 @@ class BoardManager
      * @param color - The color of the king
      * @return Square The square of the king
      */
-    Square squareOfKing(Color color) const;
+    std::shared_ptr<Square> squareOfKing(Color color) const;
 
     /**
      * Checks if there is check for the player
@@ -172,13 +172,13 @@ class BoardManager
      * @param finalSquare - final Square
      * @return bool true if the pawn capture is valid, else false
      */
-    bool isValidPawnCapture(const Square& initSquare, const Square& finalSquare) const;
+    bool isValidPawnCapture(const std::shared_ptr<Square>& initSquare, const std::shared_ptr<Square>& finalSquare) const;
 
     /**
      * @param square - the square of the piece
      * @return bool true if this piece has been moved or captured, else false
      */
-    bool hasPieceMoved(const Square& square) const;
+    bool hasPieceMoved(const std::shared_ptr<Square>& square) const;
 
     /**
      * Checks if it is valid Castling move
@@ -187,7 +187,7 @@ class BoardManager
      * @param rookSquare - the square of the rook
      * @return bool true if this is valid Castling, else false
      */
-    bool isValidCastling(Square& kingSquare, Square& rookSquare) const;
+    bool isValidCastling(std::shared_ptr<Square>& kingSquare, std::shared_ptr<Square>& rookSquare) const;
 
     /**
      * Makes a castle move.
@@ -196,7 +196,7 @@ class BoardManager
      * @param kingSquare - the square of the King
      * @param rookSquare - the square of the Rook
      */
-    void castle(const Square& kingSquare, const Square& rookSquare);
+    void castle(const std::shared_ptr<Square>& kingSquare, const std::shared_ptr<Square>& rookSquare);
 
     /**
      * Checks if there are any obstacles between the pieces.
@@ -215,7 +215,7 @@ class BoardManager
      * @param finalSquare - the final square
      * @return bool true if a move is valid, false if invalid
      */
-    bool isSaneMove(const Square& initSquare, const Square& finalSquare) const;
+    bool isSaneMove(const std::shared_ptr<Square>& initSquare, const std::shared_ptr<Square>& finalSquare) const;
 
     /**
      * Checks if the piece can make a valid movement to the square.
@@ -223,7 +223,7 @@ class BoardManager
      * @param finalSquare - final Square
      * @return bool true if move is valid, else false
      */
-    bool isValidMovement(const Square& initSquare, const Square& finalSquare) const;
+    bool isValidMovement(const std::shared_ptr<Square>& initSquare, const std::shared_ptr<Square>& finalSquare) const;
 
     /**
      * Checks if the given move is valid and safe. Calls the isValidMovement()
@@ -233,7 +233,7 @@ class BoardManager
      * @param finalSquare - the final Square
      * @return bool true if move is valid, else false
      */
-    bool isValidMove(Square& initSquare, Square& finalSquare) const;
+    bool isValidMove(std::shared_ptr<Square>& initSquare, std::shared_ptr<Square>& finalSquare) const;
 
   protected:
 

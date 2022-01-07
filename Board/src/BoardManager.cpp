@@ -54,7 +54,7 @@ Board BoardManager::getBoard() const
     return board;
 }
 
-bool BoardManager::promote(Square& square, TypeOfPiece::PieceType pieceType) 
+bool BoardManager::promote(std::shared_ptr<Square>& square, TypeOfPiece::PieceType pieceType)
 {
     if (isValidPromotion(square))
     {
@@ -83,27 +83,27 @@ bool BoardManager::promote(Square& square, TypeOfPiece::PieceType pieceType)
                 piece = queen;
                 break;
         }
-        moveList.push_back(Move(square.getPosition(), square.getPosition(), piece, square));
-        square.setPiece(piece);
+        moveList.push_back(Move(square->getPosition(), square->getPosition(), piece, *square));
+        square->setPiece(piece);
         return true;
     }
     return false;
 }
 
-bool BoardManager::isValidPromotion(const Square& square) const
+bool BoardManager::isValidPromotion(const std::shared_ptr<Square>& square) const
 {
-    if (!square.isOccupied())
+    if (!square->isOccupied())
     {
         return false;
     }
-    if (square.getPiece()->getType() == TypeOfPiece::PieceType::PAWN)
+    if (square->getPiece()->getType() == TypeOfPiece::PieceType::PAWN)
     {
         int col = 7;
-        if (square.getPiece()->getColor() == BLACK) 
+        if (square->getPiece()->getColor() == BLACK)
         {
             col = 0;
         }
-        if (square.getPosition() == Position(square.getPosition().getX(), col))
+        if (square->getPosition() == Position(square->getPosition().getX(), col))
         {
             return true;
         }
@@ -123,7 +123,7 @@ bool BoardManager::isGameOver() const
 
 bool BoardManager::isCheckmate(Color color) const
 {
-    std::vector<Square> attackers = getAttackingPieces(color);
+    std::vector<std::shared_ptr<Square> > attackers = getAttackingPieces(color);
 
     // If there are no attackers
     if (attackers.size() == 0) 
@@ -133,17 +133,17 @@ bool BoardManager::isCheckmate(Color color) const
 
     // If there is more than one attacker then there are many options check all.
     bool checkmate = true;
-    Square attackerSquare = attackers.at(0);
-    Square kingSquare = squareOfKing(color);
-    std::vector<Position> attackPath = attackerSquare.getPiece()->getPath(
-        attackerSquare.getPosition(), kingSquare.getPosition());
-    std::vector<std::vector<Square> > allSquares = board.getBoard();
+    std::shared_ptr<Square> attackerSquare = attackers.at(0);
+    std::shared_ptr<Square> kingSquare = squareOfKing(color);
+    std::vector<Position> attackPath = attackerSquare->getPiece()->getPath(
+        attackerSquare->getPosition(), kingSquare->getPosition());
+    std::vector<std::vector<std::shared_ptr<Square> > > allSquares = board.getBoard();
     for (int x = 0; x < 8; x++) 
     {
         for (int y = 0; y < 8; y++)
         {
             // If the king can move to a different square.
-            Square square = squareOfKing(color);
+            std::shared_ptr<Square> square = squareOfKing(color);
             if (isValidMove(square, board.getBoard().at(x).at(y)) &&
                 squareOfKing(color) != board.getBoard().at(x).at(y)) 
             {
@@ -151,14 +151,15 @@ bool BoardManager::isCheckmate(Color color) const
             }
             for (Position position : attackPath) 
             {
-                Square tmpSquare = allSquares.at(x).at(y);
+                std::shared_ptr<Square> tmpSquare = allSquares.at(x).at(y);
                 // The square must be occupied
-                if (tmpSquare.isOccupied()) {
+                if (tmpSquare->isOccupied())
+                {
                     // The player must move his own piece between the paths
                     // of the attacker and the King.
                     // If it can do so then there is no checkmate
-                    Square square = board.getSquare(position);
-                    if (tmpSquare.getPiece()->getColor() == kingSquare.getPiece()->getColor() &&
+                    std::shared_ptr<Square> square = board.getSquare(position);
+                    if (tmpSquare->getPiece()->getColor() == kingSquare->getPiece()->getColor() &&
                         isValidMove(tmpSquare, square))
                     {
                         checkmate = false;
@@ -201,14 +202,14 @@ void BoardManager::undoMove()
     switchCurrentPlayer();
 }
 
-std::vector<Square> BoardManager::getValidMoves(const Position& position) const
+std::vector<std::shared_ptr<Square> > BoardManager::getValidMoves(const Position& position) const
 {
-    std::vector<Square> moves;
+    std::vector<std::shared_ptr<Square> > moves;
     for (int x = 0; x < 8; x++) 
     {
         for (int y = 0; y < 8; y++)
         {
-            Square square = board.getSquare(position);
+            std::shared_ptr<Square> square = board.getSquare(position);
             if (isValidMove(square, board.getBoard().at(x).at(y)))
             {
                 moves.push_back(board.getBoard().at(x).at(y));
@@ -218,20 +219,20 @@ std::vector<Square> BoardManager::getValidMoves(const Position& position) const
     return moves;
 }
 
-std::vector<Square> BoardManager::getAttackingPieces(Color color) const
+std::vector<std::shared_ptr<Square> > BoardManager::getAttackingPieces(Color color) const
 {
-    std::vector<Square> squares;
-    std::vector<std::vector<Square> > allSquares = board.getBoard();
-    Square kingSquare = squareOfKing(color);
+    std::vector<std::shared_ptr<Square> > squares;
+    std::vector<std::vector<std::shared_ptr<Square> > > allSquares = board.getBoard();
+    std::shared_ptr<Square> kingSquare = squareOfKing(color);
     for (int x = 0; x < 8; x++) 
     {
         for (int y = 0; y < 8; y++)
         {
-            Square tmpSquare = allSquares.at(x).at(y);
-            if (tmpSquare.isOccupied()) 
+            std::shared_ptr<Square> tmpSquare = allSquares.at(x).at(y);
+            if (tmpSquare->isOccupied())
             {
                 if (isValidMovement(tmpSquare, kingSquare) &&
-                    kingSquare.getPiece()->getColor() != tmpSquare.getPiece()->getColor()) 
+                    kingSquare->getPiece()->getColor() != tmpSquare->getPiece()->getColor())
                 {
                     squares.push_back(tmpSquare);
                 }
@@ -250,37 +251,37 @@ bool BoardManager::move(const Position& initPosition, const Position& finalPosit
         return false; 
     }
 
-    Square s1 = board.getSquare(initPosition);
-    Square s2 = board.getSquare(finalPosition);
+    std::shared_ptr<Square> s1 = board.getSquare(initPosition);
+    std::shared_ptr<Square> s2 = board.getSquare(finalPosition);
     //Checks for sane moves
     if (!isSaneMove(s1, s2)) 
     {
         return false; 
     }
     // Only the current player can move the piece.
-    if (currentPlayer == s1.getPiece()->getColor())
+    if (currentPlayer == s1->getPiece()->getColor())
     {
         if (isValidCastling(s1, s2)) 
         {
-            std::shared_ptr<Piece> tmp = s1.getPiece();
+            std::shared_ptr<Piece> tmp = s1->getPiece();
             castle(s1, s2);
             switchCurrentPlayer();
-            moveList.push_back(Move(s1.getPosition(), s2.getPosition(), tmp));
+            moveList.push_back(Move(s1->getPosition(), s2->getPosition(), tmp));
             return true;
         }
         else if (isValidEnpassant(s1, s2)) 
         {
-            std::shared_ptr<Piece> tmp = s1.getPiece();
-            Square capture = board.getSquare((moveList.at(moveList.size() - 1).getFinalPosition()));
+            std::shared_ptr<Piece> tmp = s1->getPiece();
+            std::shared_ptr<Square> capture = board.getSquare((moveList.at(moveList.size() - 1).getFinalPosition()));
             enpassant(s1, s2);
             switchCurrentPlayer();
-            moveList.push_back(Move(s1.getPosition(), s2.getPosition(), tmp, capture));
+            moveList.push_back(Move(s1->getPosition(), s2->getPosition(), tmp, *capture));
             return true;
         }
         else if (isValidMove(s1, s2))
         {
             switchCurrentPlayer();
-            moveList.push_back(Move(s1.getPosition(), s2.getPosition(), s1.getPiece(), s1));
+            moveList.push_back(Move(s1->getPosition(), s2->getPosition(), s1->getPiece(), *s1));
             board.makeMove(s1, s2);
             return true;
         }
@@ -288,23 +289,23 @@ bool BoardManager::move(const Position& initPosition, const Position& finalPosit
     return false;
 }
 
-bool BoardManager::isValidEnpassant(const Square& initSquare, const Square& finalSquare) const
+bool BoardManager::isValidEnpassant(const std::shared_ptr<Square>& initSquare, const std::shared_ptr<Square>& finalSquare) const
 {
     // The final square should be empty
-    if (finalSquare.isOccupied())
+    if (finalSquare->isOccupied())
     {
         return false;
     }
 
     // The first piece should be a pawn.
-    if (initSquare.getPiece()->getType() != TypeOfPiece::PieceType::PAWN)
+    if (initSquare->getPiece()->getType() != TypeOfPiece::PieceType::PAWN)
     {
         return false;
     }
     // Move type is different according to player color
-    if (initSquare.getPiece()->getColor() == WHITE) 
+    if (initSquare->getPiece()->getColor() == WHITE)
     {
-        if (initSquare.getPosition().getY() > finalSquare.getPosition().getY())
+        if (initSquare->getPosition().getY() > finalSquare->getPosition().getY())
         {
             // White can only move forward
             return false;
@@ -312,15 +313,15 @@ bool BoardManager::isValidEnpassant(const Square& initSquare, const Square& fina
     }
     else
     {
-        if (initSquare.getPosition().getY() < finalSquare.getPosition().getY())
+        if (initSquare->getPosition().getY() < finalSquare->getPosition().getY())
         {
             // Black can only move backward
             return false;
         }
     }
     // The move should be like a bishop move but to a single square.
-    if (abs(initSquare.getPosition().getX() - finalSquare.getPosition().getX()) == 1 &&
-        abs(initSquare.getPosition().getY() - finalSquare.getPosition().getY()) == 1) 
+    if (abs(initSquare->getPosition().getX() - finalSquare->getPosition().getX()) == 1 &&
+        abs(initSquare->getPosition().getY() - finalSquare->getPosition().getY()) == 1)
     {
         // There should be a pawn move before enpassant.
         if (moveList.empty()) 
@@ -332,12 +333,12 @@ bool BoardManager::isValidEnpassant(const Square& initSquare, const Square& fina
         {
             return false;
         }
-        if (board.getSquare(lastMove.getFinalPosition()).getPiece()->getType() == TypeOfPiece::PieceType::PAWN) 
+        if (board.getSquare(lastMove.getFinalPosition())->getPiece()->getType() == TypeOfPiece::PieceType::PAWN)
         {
             // The pawn should be moving two steps forward/backward.
             // And our pawn should be moving to the same file as the last pawn
             if (abs(lastMove.getFinalPosition().getY() - lastMove.getInitPosition().getY()) == 2 &&
-                lastMove.getFinalPosition().getX() == finalSquare.getPosition().getX())
+                lastMove.getFinalPosition().getX() == finalSquare->getPosition().getX())
             {
                 return true;
             }
@@ -346,67 +347,67 @@ bool BoardManager::isValidEnpassant(const Square& initSquare, const Square& fina
     return false;
 }
 
-void BoardManager::enpassant(Square& initSquare, Square& finalSquare)
+void BoardManager::enpassant(std::shared_ptr<Square>& initSquare, std::shared_ptr<Square>& finalSquare)
 {
     Move lastMove = moveList.at(moveList.size() - 1);
-    Square square = board.getSquare(lastMove.getFinalPosition());
+    std::shared_ptr<Square> square = board.getSquare(lastMove.getFinalPosition());
     board.capturePiece(square);
     board.makeMove(initSquare, finalSquare);
 }
 
-bool BoardManager::moveMakesCheck(Square& initSquare, Square& finalSquare) const
+bool BoardManager::moveMakesCheck(std::shared_ptr<Square>& initSquare, std::shared_ptr<Square>& finalSquare) const
 {
-    std::shared_ptr<Piece> temporaryPiece = finalSquare.getPiece();
-    finalSquare.setPiece(initSquare.getPiece());
-    initSquare.releasePiece();
+    std::shared_ptr<Piece> temporaryPiece = finalSquare->getPiece();
+    finalSquare->setPiece(initSquare->getPiece());
+    initSquare->releasePiece();
     bool enpassant = false;
     std::shared_ptr<Piece> tmp = nullptr;
-    Square lastMove;
+    std::shared_ptr<Square> lastMove(new Square());
     // if it is a enpassant move then you must also remove a piece from the
     // board temporarily.
     if (isValidEnpassant(initSquare, finalSquare)) 
     {
         enpassant = true;
         lastMove = board.getSquare(moveList.at(moveList.size() - 1).getFinalPosition());
-        tmp = lastMove.getPiece();
-        lastMove.releasePiece();
+        tmp = lastMove->getPiece();
+        lastMove->releasePiece();
     }
 
-    if (isCheck(finalSquare.getPiece()->getColor())) 
+    if (isCheck(finalSquare->getPiece()->getColor()))
     {
-        initSquare.setPiece(finalSquare.getPiece());
-        finalSquare.setPiece(temporaryPiece);
+        initSquare->setPiece(finalSquare->getPiece());
+        finalSquare->setPiece(temporaryPiece);
         if (enpassant) 
         {
-            lastMove.setPiece(tmp);
+            lastMove->setPiece(tmp);
         }
         return true;
     }
     else 
     {
-        initSquare.setPiece(finalSquare.getPiece());
-        finalSquare.setPiece(temporaryPiece);
+        initSquare->setPiece(finalSquare->getPiece());
+        finalSquare->setPiece(temporaryPiece);
         if (enpassant)
         {
-            lastMove.setPiece(tmp);
+            lastMove->setPiece(tmp);
         }
     }
     return false;
 }
 
-Square BoardManager::squareOfKing(Color color) const
+std::shared_ptr<Square> BoardManager::squareOfKing(Color color) const
 {
-    std::vector<std::vector<Square> > squares = board.getBoard();
-    Square squareOfKing;
+    std::vector<std::vector<std::shared_ptr<Square> > > squares = board.getBoard();
+    std::shared_ptr<Square> squareOfKing;
     for (int x = 0; x < 8; x++) 
     {
         for (int y = 0; y < 8; y++) 
         {
-            Square square = squares[x][y];
-            if (square.isOccupied()) 
+            std::shared_ptr<Square> square = squares[x][y];
+            if (square->isOccupied())
             {
-                if (square.getPiece()->getType() == TypeOfPiece::PieceType::KING &&
-                    square.getPiece()->getColor() == color) 
+                if (square->getPiece()->getType() == TypeOfPiece::PieceType::KING &&
+                    square->getPiece()->getColor() == color)
                 {
                     squareOfKing = square;
                 }
@@ -428,17 +429,17 @@ bool BoardManager::isCheck(Color color) const
     }
 }
 
-bool BoardManager::isValidPawnCapture(const Square& initSquare, const Square& finalSquare) const
+bool BoardManager::isValidPawnCapture(const std::shared_ptr<Square>& initSquare, const std::shared_ptr<Square>& finalSquare) const
 {
     // If the piece is not a pawn OR this is not a capture.
-    if (!finalSquare.isOccupied() || 
-        initSquare.getPiece()->getType() != TypeOfPiece::PieceType::PAWN)
+    if (!finalSquare->isOccupied() ||
+        initSquare->getPiece()->getType() != TypeOfPiece::PieceType::PAWN)
     {
         return false;
     }
-    Position initPos = initSquare.getPosition();
-    Position finalPos = finalSquare.getPosition();
-    Color color = initSquare.getPiece()->getColor();
+    Position initPos = initSquare->getPosition();
+    Position finalPos = finalSquare->getPosition();
+    Color color = initSquare->getPiece()->getColor();
 
     // This is for normal pawn capture moves.
     if (abs(initPos.getY() - finalPos.getY()) == 1 &&
@@ -463,12 +464,12 @@ bool BoardManager::isValidPawnCapture(const Square& initSquare, const Square& fi
     return false;
 }
 
-bool BoardManager::hasPieceMoved(const Square& square) const
+bool BoardManager::hasPieceMoved(const std::shared_ptr<Square>& square) const
 {
     for (Move move : moveList) 
     {
-        if (move.getInitPosition() == square.getPosition() ||
-            move.getFinalPosition() == square.getPosition())
+        if (move.getInitPosition() == square->getPosition() ||
+            move.getFinalPosition() == square->getPosition())
         {
             return true;
         }
@@ -476,10 +477,10 @@ bool BoardManager::hasPieceMoved(const Square& square) const
     return false;
 }
 
-bool BoardManager::isValidCastling(Square& kingSquare, Square& rookSquare) const
+bool BoardManager::isValidCastling(std::shared_ptr<Square>& kingSquare, std::shared_ptr<Square>& rookSquare) const
 {
     // Check if the squares are occupied.
-    if (!(kingSquare.isOccupied() && rookSquare.isOccupied()))
+    if (!(kingSquare->isOccupied() && rookSquare->isOccupied()))
     {
         return false;
     }
@@ -490,36 +491,36 @@ bool BoardManager::isValidCastling(Square& kingSquare, Square& rookSquare) const
     }
 
     // First check if the move is valid.
-    if (!rookSquare.getPiece()->isValidMove(kingSquare.getPosition(),
-        rookSquare.getPosition()))
+    if (!rookSquare->getPiece()->isValidMove(kingSquare->getPosition(),
+        rookSquare->getPosition()))
     {
         return false;
     }
     // Check if the path is clear
-    if (!isPathClear(rookSquare.getPiece()->getPath(rookSquare.getPosition(), kingSquare.getPosition()),
-        rookSquare.getPosition(), kingSquare.getPosition())) 
+    if (!isPathClear(rookSquare->getPiece()->getPath(rookSquare->getPosition(), kingSquare->getPosition()),
+        rookSquare->getPosition(), kingSquare->getPosition()))
     {
         return false;
     }
     // Now check if the movement of the castling is fine
     // First check if the piece is king and rook
-    if (kingSquare.getPiece()->getType() == TypeOfPiece::PieceType::KING &&
-        rookSquare.getPiece()->getType() == TypeOfPiece::PieceType::ROOK) 
+    if (kingSquare->getPiece()->getType() == TypeOfPiece::PieceType::KING &&
+        rookSquare->getPiece()->getType() == TypeOfPiece::PieceType::ROOK)
     {
         int col = 0;
         // column zero for white, 7 for black
-        if (kingSquare.getPiece()->getColor() == Color::BLACK)
+        if (kingSquare->getPiece()->getColor() == Color::BLACK)
         {
             col = 7;
         }
         // Check the peices are in correct position for castling
-        if (kingSquare.getPosition() == Position(4, col) &&
-           (rookSquare.getPosition() == Position(0, col) || 
-            rookSquare.getPosition() == Position(7, col))) 
+        if (kingSquare->getPosition() == Position(4, col) &&
+           (rookSquare->getPosition() == Position(0, col) ||
+            rookSquare->getPosition() == Position(7, col)))
         {
             // Check if there is check in any way between the king and final king square
-            int offset;
-            if (Position::sgn(rookSquare.getPosition().getX() - kingSquare.getPosition().getX()) == 1)
+            int8_t offset;
+            if (Position::sgn(rookSquare->getPosition().getX() - kingSquare->getPosition().getX()) == 1)
             {
                 offset = 2;
             }
@@ -528,12 +529,12 @@ bool BoardManager::isValidCastling(Square& kingSquare, Square& rookSquare) const
                 offset = -2;
             }
             // Calculates final kings X coordinate
-            int kingX = kingSquare.getPosition().getX() + offset;
-            for (Position position : rookSquare.getPiece()->getPath(
-                kingSquare.getPosition(), Position(kingX, kingSquare.getPosition().getY()))) 
+            int8_t kingX = kingSquare->getPosition().getX() + offset;
+            for (Position position : rookSquare->getPiece()->getPath(
+                kingSquare->getPosition(), Position(kingX, kingSquare->getPosition().getY())))
             {
                 // NASTY nullptr exeception
-                Square square = board.getSquare(position);
+                std::shared_ptr<Square> square = board.getSquare(position);
                 if (kingSquare == square)
                 {
                     continue;
@@ -549,10 +550,10 @@ bool BoardManager::isValidCastling(Square& kingSquare, Square& rookSquare) const
     return false;
 }
 
-void BoardManager::castle(const Square& kingSquare, const Square& rookSquare)
+void BoardManager::castle(const std::shared_ptr<Square>& kingSquare, const std::shared_ptr<Square>& rookSquare)
 {
-    int offset;
-    if (Position::sgn(rookSquare.getPosition().getX() - kingSquare.getPosition().getX()) == 1)
+    int8_t offset;
+    if (Position::sgn(rookSquare->getPosition().getX() - kingSquare->getPosition().getX()) == 1)
     {
         offset = 2;
     }
@@ -560,26 +561,26 @@ void BoardManager::castle(const Square& kingSquare, const Square& rookSquare)
     {
         offset = -2;
     }
-    int kingX = kingSquare.getPosition().getX() + offset;
-    int rookX = kingX - offset / 2;
-    board.makeMove(kingSquare.getPosition(), Position(kingX,
-        kingSquare.getPosition().getY()));
-    board.makeMove(rookSquare.getPosition(), Position(rookX,
-        rookSquare.getPosition().getY()));
+    int8_t kingX = kingSquare->getPosition().getX() + offset;
+    int8_t rookX = kingX - offset / 2;
+    board.makeMove(kingSquare->getPosition(), Position(kingX,
+        kingSquare->getPosition().getY()));
+    board.makeMove(rookSquare->getPosition(), Position(rookX,
+        rookSquare->getPosition().getY()));
 }
 
 bool BoardManager::isPathClear(const std::vector<Position>& path,
     const Position& initCoordinate,
     const Position& finalCoordinate) const
 {
-    std::vector<std::vector<Square> > squares = board.getBoard();
+    std::vector<std::vector<std::shared_ptr<Square>> > squares = board.getBoard();
     for (Position position : path)
     {
         if (position == initCoordinate || position == finalCoordinate)
         {
             continue;
         }
-        if ((squares.at(position.getX()).at(position.getY()).isOccupied()))
+        if ((squares.at(position.getX()).at(position.getY())->isOccupied()))
         {
             return false;
         }
@@ -587,10 +588,10 @@ bool BoardManager::isPathClear(const std::vector<Position>& path,
     return true;
 }
 
-bool BoardManager::isSaneMove(const Square& initSquare, const Square& finalSquare) const
+bool BoardManager::isSaneMove(const std::shared_ptr<Square>& initSquare, const std::shared_ptr<Square>& finalSquare) const
 {
     // If the player tries to move a empty square.
-    if (!initSquare.isOccupied()) 
+    if (!initSquare->isOccupied())
     {
         return false;
     }
@@ -603,16 +604,16 @@ bool BoardManager::isSaneMove(const Square& initSquare, const Square& finalSquar
     return true;
 }
 
-bool BoardManager::isValidMovement(const Square& initSquare, const Square& finalSquare) const
+bool BoardManager::isValidMovement(const std::shared_ptr<Square>& initSquare, const std::shared_ptr<Square>& finalSquare) const
 {
     if (!isSaneMove(initSquare, finalSquare)) 
     {
         return false;
     }
     // If the player tries to take his own piece.
-    if (finalSquare.isOccupied())
+    if (finalSquare->isOccupied())
     {
-        if (initSquare.getPiece()->getColor() == finalSquare.getPiece()->getColor())
+        if (initSquare->getPiece()->getColor() == finalSquare->getPiece()->getColor())
         {
             return false;
         }
@@ -621,34 +622,33 @@ bool BoardManager::isValidMovement(const Square& initSquare, const Square& final
 
     // Castling are handled by the move function itself.
     // If the piece cannot move to the square. No such movement.
-    if (!initSquare.getPiece()->isValidMove(initSquare.getPosition(),
-        finalSquare.getPosition()) &&
+    if (!initSquare->getPiece()->isValidMove(initSquare->getPosition(),
+        finalSquare->getPosition()) &&
         !isValidPawnCapture(initSquare, finalSquare) &&
         !isValidEnpassant(initSquare, finalSquare))
     {
         return false;
     }
     // Pawns cannot capture forward.
-    if (initSquare.getPiece()->getType() == TypeOfPiece::PieceType::PAWN &&
-       finalSquare.isOccupied() &&
+    if (initSquare->getPiece()->getType() == TypeOfPiece::PieceType::PAWN &&
+       finalSquare->isOccupied() &&
        !isValidPawnCapture(initSquare, finalSquare))
     {
         return false;
     }
 
     // If piece is blocked by other pieces
-    std::vector<Position> path = initSquare.getPiece()->getPath(
-        initSquare.getPosition(), finalSquare.getPosition());
+    std::vector<Position> path = initSquare->getPiece()->getPath(
+        initSquare->getPosition(), finalSquare->getPosition());
 
-    if (!isPathClear(path, initSquare.getPosition(),
-        finalSquare.getPosition()))
+    if (!isPathClear(path, initSquare->getPosition(), finalSquare->getPosition()))
     {
         return false;
     }
     return true;
 }
 
-bool BoardManager::isValidMove(Square& initSquare, Square& finalSquare) const
+bool BoardManager::isValidMove(std::shared_ptr<Square>& initSquare, std::shared_ptr<Square>& finalSquare) const
 {
     if (isValidCastling(initSquare, finalSquare))
     {
