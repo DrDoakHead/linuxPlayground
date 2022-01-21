@@ -6,7 +6,4 @@ Building with CMAKE
 Showcasing my coding skills
 
 # Coming Soon
-Unit tests
-
-# Coming Later
 OpenGL
